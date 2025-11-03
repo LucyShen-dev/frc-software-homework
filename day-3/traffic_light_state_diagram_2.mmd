@@ -1,0 +1,21 @@
+stateDiagram-v2
+  state "Green Light" as GREEN_LIGHT_STATE
+  state "Yellow Light" as YELLOW_LIGHT_STATE
+  state "Red Light" as RED_LIGHT_STATE
+
+  state "Don't Walk (Solid Orange)" as DONT_WALK_SOLID
+  state "Walk (White)" as WALK_WHITE
+  state "Don't Walk (Flashing Orange)" as DONT_WALK_FLASHING
+
+  [*] --> GREEN_LIGHT_STATE
+  GREEN_LIGHT_STATE --> YELLOW_LIGHT_STATE: Button pressed
+  YELLOW_LIGHT_STATE --> RED_LIGHT_STATE: After 3 seconds
+  RED_LIGHT_STATE --> GREEN_LIGHT_STATE: After pedestrian cycle
+
+  [*] --> DONT_WALK_SOLID
+  GREEN_LIGHT_STATE --> DONT_WALK_SOLID
+  YELLOW_LIGHT_STATE --> DONT_WALK_SOLID
+
+  RED_LIGHT_STATE --> WALK_WHITE: Immediately
+  WALK_WHITE --> DONT_WALK_FLASHING: After 3 seconds
+  DONT_WALK_FLASHING --> DONT_WALK_SOLID: After 8 seconds
